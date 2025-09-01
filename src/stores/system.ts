@@ -5,6 +5,12 @@ export const useSystemStore = defineStore("system", {
   state: (): ISystemStore => ({
     colorScheme: "light",
   }),
+  getters: {
+    logoPath: (state) =>
+      state.colorScheme === "dark" ? "/dark-logo.webp" : "/logo.webp",
+    mobileLogoPath: (state) =>
+      state.colorScheme === "dark" ? "/dark-logo-mobile.webp" : "/logo-mobile.webp",
+  },
   actions: {
     toggleColorScheme() {
       this.colorScheme = this.colorScheme === "light" ? "dark" : "light";
@@ -28,6 +34,6 @@ export const useSystemStore = defineStore("system", {
       this.colorScheme === "dark"
         ? document.documentElement.classList.add("dark")
         : document.documentElement.classList.remove("dark");
-    }
+    },
   },
 });
