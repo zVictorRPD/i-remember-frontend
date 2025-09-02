@@ -1,5 +1,5 @@
 import AppMain from "@/components/layout/app/AppMain.vue";
-import Home from "@/pages/Home.vue";
+import Home from "@/pages/home/Home.vue";
 import Login from "@/pages/Login.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
