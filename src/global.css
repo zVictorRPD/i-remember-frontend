@@ -11,3 +11,16 @@
   --color-primary-600: #030A0F;
   --color-primary-700: #01080d;
 }
+
+@layer base {
+  body {
+    color: #393939;
+    font-family: "Inter", sans-serif;
+  }
+}
+
+@layer base {
+  .dark body {
+    color: #fff;
+  }
+}
