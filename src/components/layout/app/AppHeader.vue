@@ -6,9 +6,9 @@ const systemStore = useSystemStore();
 </script>
 
 <template>
-  <header class="bg-white dark:bg-header shadow-md">
+  <header class="bg-white dark:bg-header border-b border-b-gray-200 dark:border-b-gray-700">
     <div
-      class="container h-20 mx-auto py-4 px-6 flex justify-between items-center"
+      class="container max-w-5xl h-20 mx-auto py-4 px-6 flex justify-between items-center "
     >
       <img
         :src="systemStore.logoPath"
