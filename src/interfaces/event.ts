@@ -1,6 +1,6 @@
 export interface IEvent {
   id: string;
-  title: string;
+  name: string;
   category: string;
   date: string;
   description?: string;
@@ -11,4 +11,10 @@ export interface IEvent {
   twitter?: string;
   email?: string;
   whatsApp?: string;
+}
+
+export interface IEventStore {
+  events: IEvent[];
+
+  addDialogIsOpen: boolean;
 }
