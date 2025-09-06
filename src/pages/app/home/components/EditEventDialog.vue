@@ -7,6 +7,7 @@ import { updateEventService } from "@/utils/services/event";
 import { useMutation } from "@tanstack/vue-query";
 import { Form } from "vee-validate";
 import EventForm from "./EventForm.vue";
+
 const eventStore = useEventStore();
 
 const mutate = useMutation({

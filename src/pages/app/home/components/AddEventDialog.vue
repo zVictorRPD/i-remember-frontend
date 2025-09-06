@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import Dialog from "@/components/ui/Dialog.vue";
-import type { IEvent } from "@/interfaces/event";
 import { useEventStore } from "@/stores/event";
-import { eventValidationSchema } from "@/utils/forms/event";
+import { eventValidationSchema, type TEventFormValues } from "@/utils/forms/event";
 import { addNewEventService } from "@/utils/services/event";
 import { useMutation } from "@tanstack/vue-query";
 import { Form } from "vee-validate";
 import EventForm from "./EventForm.vue";
+
 const eventStore = useEventStore();
 
 const mutate = useMutation({
@@ -18,7 +18,7 @@ const mutate = useMutation({
 });
 
 async function handleFormSubmit(v: any) {
-  const values: IEvent = v;
+  const values: TEventFormValues = v;
   await mutate.mutateAsync(values);
 }
 </script>

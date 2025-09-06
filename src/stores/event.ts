@@ -8,7 +8,10 @@ export const useEventStore = defineStore("event", {
     addDialogIsOpen: false,
     newEvent: eventInitialValues,
     editDialogIsOpen: false,
-    eventToEdit: eventInitialValues,
+    eventToEdit: {
+      ...eventInitialValues,
+      id: "",
+    },
   }),
   actions: {
     setAddDialogIsOpen(isOpen: boolean) {

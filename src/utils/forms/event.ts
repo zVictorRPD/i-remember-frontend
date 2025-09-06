@@ -31,4 +31,4 @@ const eventZodSchema = z.object({
 
 export const eventValidationSchema = toTypedSchema(eventZodSchema);
 
-export type EventFormValues = z.infer<typeof eventZodSchema>;
+export type TEventFormValues = z.infer<typeof eventZodSchema>;

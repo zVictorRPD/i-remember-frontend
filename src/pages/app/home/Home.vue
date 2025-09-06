@@ -5,13 +5,14 @@ import { PlusIcon } from "lucide-vue-next";
 import AddEventDialog from "./components/AddEventDialog.vue";
 import EditEventDialog from "./components/EditEventDialog.vue";
 import RememberCards from "./components/RememberCards.vue";
+
 const eventStore = useEventStore();
 </script>
 
 <template>
   <div class="flex justify-end mb-3">
     <Button :icon="PlusIcon" @click="eventStore.setAddDialogIsOpen(true)">
-      Adicionar Data
+      Adicionar Evento
     </Button>
   </div>
   <RememberCards />

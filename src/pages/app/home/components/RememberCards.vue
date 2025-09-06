@@ -10,8 +10,9 @@ import {
   MapPinIcon,
   MessageCircleIcon,
   PencilIcon,
-  Trash2Icon,
 } from "lucide-vue-next";
+import DeleteEventPopover from "./DeleteEventPopover.vue";
+
 const eventStore = useEventStore();
 function handleEditEvent(event: IEvent) {
   eventStore.setEventToEdit(event);
@@ -21,7 +22,11 @@ function handleEditEvent(event: IEvent) {
 
 <template>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-    <div class="p-2.5 bg-white dark:bg-header rounded-md flex flex-col gap-4" v-for="event in eventStore.events" :key="event.id">
+    <div
+      class="p-2.5 bg-white dark:bg-header rounded-md flex flex-col gap-4"
+      v-for="event in eventStore.events"
+      :key="event.id"
+    >
       <div class="flex items-center gap-3">
         <img
           src="https://avatars.githubusercontent.com/u/9919?s=200&v=4"
@@ -29,7 +34,7 @@ function handleEditEvent(event: IEvent) {
           class="w-12 h-12 rounded-full"
         />
         <div class="flex flex-col items-start justify-center gap-1">
-          <p class="text-xl">{{event.name}} - 99 anos</p>
+          <p class="text-xl">{{ event.name }} - 99 anos</p>
           <div
             class="flex flex-col md:flex-row justify-start items-start md:items-center gap-2"
           >
@@ -75,12 +80,15 @@ function handleEditEvent(event: IEvent) {
           </a>
         </div>
         <div class="flex gap-2">
-          <Button variant="primary" size="small" :icon="PencilIcon" @click="handleEditEvent(event)">
+          <Button
+            variant="primary"
+            size="small"
+            :icon="PencilIcon"
+            @click="handleEditEvent(event)"
+          >
             Editar
           </Button>
-          <Button variant="danger" size="small" :icon="Trash2Icon">
-            Excluir
-          </Button>
+          <DeleteEventPopover :eventId="event.id" />
         </div>
       </div>
     </div>
