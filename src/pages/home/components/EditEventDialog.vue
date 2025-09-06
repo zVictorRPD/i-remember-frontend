@@ -3,17 +3,20 @@ import Dialog from "@/components/ui/Dialog.vue";
 import type { IEvent } from "@/interfaces/event";
 import { useEventStore } from "@/stores/event";
 import { eventValidationSchema } from "@/utils/forms/event";
-import { addNewEventService } from "@/utils/services/event";
+import { updateEventService } from "@/utils/services/event";
 import { useMutation } from "@tanstack/vue-query";
 import { Form } from "vee-validate";
 import EventForm from "./EventForm.vue";
 const eventStore = useEventStore();
 
 const mutate = useMutation({
-  mutationFn: addNewEventService,
+  mutationFn: updateEventService,
   onSuccess: (data) => {
-    eventStore.addNewEvent(data);
-    eventStore.setAddDialogIsOpen(false);
+    eventStore.editEvent({
+      ...data,
+      id: eventStore.eventToEdit.id,
+    });
+    eventStore.setEditDialogIsOpen(false);
   },
 });
 
@@ -25,19 +28,20 @@ async function handleFormSubmit(v: any) {
 
 <template>
   <Dialog
-    :open="eventStore.addDialogIsOpen"
-    title="Adicionar Evento"
-    :has-confirm-button="true"
-    :form-id="'add-event-form'"
-    @update-open="eventStore.setAddDialogIsOpen($event)"
+    :open="eventStore.editDialogIsOpen"
+    title="Editar Evento"
+    @update-open="eventStore.setEditDialogIsOpen($event)"
     size="md"
+    :form-id="'edit-event-form'"
+    :has-confirm-button="true"
+    confirm-button-text="Editar"
     :is-loading="mutate.isPending.value"
   >
     <Form
-      id="add-event-form"
+      id="edit-event-form"
       :validation-schema="eventValidationSchema"
       class="space-y-4"
-      :initial-values="eventStore.newEvent"
+      :initial-values="eventStore.eventToEdit"
       @submit="handleFormSubmit"
     >
       <EventForm />

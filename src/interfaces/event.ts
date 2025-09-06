@@ -1,5 +1,5 @@
 export interface IEvent {
-  id: string;
+  id?: string;
   name: string;
   category: string;
   date: string;
@@ -15,6 +15,8 @@ export interface IEvent {
 
 export interface IEventStore {
   events: IEvent[];
-
   addDialogIsOpen: boolean;
+  editDialogIsOpen: boolean;
+  newEvent: IEvent;
+  eventToEdit: IEvent;
 }

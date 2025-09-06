@@ -19,9 +19,17 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  confirmText: {
+  confirmButtonText: {
     type: String,
     default: "Salvar",
+  },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+  formId: {
+    type: String,
+    default: "",
   },
   hasConfirmButton: {
     type: Boolean,
@@ -63,8 +71,20 @@ const emit = defineEmits<{
           <DialogClose as-child>
             <Button variant="secondary"> Fechar </Button>
           </DialogClose>
-          <Button @click="emit('confirm', true)" v-if="props.hasConfirmButton">
-            {{ props.confirmText }}
+          <Button
+            v-if="props.hasConfirmButton && props.formId"
+            :form="props.formId"
+            type="submit"
+            :is-loading="props.isLoading"
+          >
+            {{ props.confirmButtonText }}
+          </Button>
+          <Button
+            @click="emit('confirm', true)"
+            v-else-if="props.hasConfirmButton"
+            :is-loading="props.isLoading"
+          >
+            {{ props.confirmButtonText }}
           </Button>
         </div>
         <DialogClose
