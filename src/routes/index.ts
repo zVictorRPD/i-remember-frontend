@@ -30,10 +30,6 @@ const router = createRouter({
 // @ts-ignore (o from não é usado, mas é necessário usar o next)
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore();
-  console.log("userStore.user", userStore.user);
-  console.log(to.path);
-  
-  
   if (userStore.user === null && to.path.includes("auth") === false) {
     next("/auth/login");
   } else {

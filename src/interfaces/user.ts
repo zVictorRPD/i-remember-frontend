@@ -1,9 +1,10 @@
 import type { TLoginUserFormValues, TRegisterUserFormValues } from "@/utils/forms/user";
 
 export interface IUser {
-  id: string;
+  id: number;
   name: string;
   email: string;
+  token: string;
   createdAt: string;
 }
 

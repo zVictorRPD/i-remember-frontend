@@ -1,7 +1,7 @@
 import type { TEventFormValues } from "@/utils/forms/event";
 
 export interface IEvent {
-  id: string;
+  id: number;
   name: string;
   category: string;
   date: string;
@@ -13,6 +13,7 @@ export interface IEvent {
   twitter?: string;
   email?: string;
   whatsApp?: string;
+  createdAt: string;
 }
 
 export interface IEventStore {

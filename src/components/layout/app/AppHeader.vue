@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { useSystemStore } from "@/stores/system";
-import { MoonIcon, SunIcon } from "lucide-vue-next";
+import { useUserStore } from "@/stores/user";
+import { LogOutIcon, MoonIcon, SunIcon } from "lucide-vue-next";
 
 const systemStore = useSystemStore();
+const userStore = useUserStore();
 </script>
 
 <template>
@@ -20,7 +22,8 @@ const systemStore = useSystemStore();
         alt="iRemember logo"
         class="w-10 block md:hidden"
       />
-      <button
+      <div class="flex gap-3">
+        <button
         @click="systemStore.toggleColorScheme()"
         class="p-2 rounded hover:bg-gray-200 dark:hover:bg-sky-950 transition cursor-pointer border border-gray-200 dark:border-sky-950"
       >
@@ -30,6 +33,13 @@ const systemStore = useSystemStore();
         />
         <MoonIcon v-else class="w-6 h-6 text-gray-200" />
       </button>
+      <button
+        @click="userStore.logoutUser()"
+        class="p-2 rounded hover:bg-gray-200 dark:hover:bg-sky-950 transition cursor-pointer border border-gray-200 dark:border-sky-950"
+      >
+        <LogOutIcon class="w-6 h-6 text-header" />
+      </button>
+      </div>
     </div>
   </header>
 </template>

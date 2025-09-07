@@ -6,7 +6,7 @@ import {
   loginUserValidationSchema,
   type TLoginUserFormValues,
 } from "@/utils/forms/user";
-import { loginUserService } from "@/utils/services/user";
+import { loginUserService } from "@/utils/services/auth";
 import { useMutation } from "@tanstack/vue-query";
 import { Field, Form } from "vee-validate";
 import { useRouter } from "vue-router";
@@ -17,7 +17,7 @@ const router = useRouter();
 const mutate = useMutation({
   mutationFn: loginUserService,
   onSuccess: (data) => {
-    userStore.setUser(data);
+    userStore.setUser(data.data);
     router.push("/");
   },
 });
@@ -29,12 +29,12 @@ function handleFormSubmit(v: any) {
 </script>
 
 <template>
-  <div class="flex items-center justify-center flex-col gap-6">
+  <div class="flex items-center justify-center flex-col gap-3 md:gap-6">
     <h1 class="text-2xl font-medium">Entre em sua conta</h1>
     <Form
       id="login-user-form"
       :validation-schema="loginUserValidationSchema"
-      class="space-y-4 w-full"
+      class="space-y-3 w-full"
       :initial-values="userStore.loginUser"
       @submit="handleFormSubmit"
     >

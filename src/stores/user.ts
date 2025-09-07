@@ -1,12 +1,13 @@
 import type { IUser, IUserStore } from "@/interfaces/user";
+import router from "@/routes";
 import {
   loginUserInitialValues,
   registerUserInitialValues,
 } from "@/utils/forms/user";
 import { defineStore } from "pinia";
 import Cookies from "universal-cookie";
-import { useRouter } from "vue-router";
 
+const cookies = new Cookies(null, { path: "/" });
 export const useUserStore = defineStore("user", {
   state: (): IUserStore => ({
     user: null,
@@ -14,19 +15,18 @@ export const useUserStore = defineStore("user", {
     newUser: registerUserInitialValues,
   }),
   actions: {
-    async loadUser() {
-      const cookies = new Cookies(null, { path: "/" });
+    loadUser() {
       const userCookie = cookies.get("@iRemember:user");
-      const router = useRouter();
       if (userCookie) {
         this.user = userCookie;
-        router.push("/");
+        router.push({
+          path: "/"
+        });
       } else {
         this.user = null;
       }
     },
     setUser(user: IUser) {
-      const cookies = new Cookies(null, { path: "/" });
       cookies.set("@iRemember:user", JSON.stringify(user), {
         path: "/",
         httpOnly: false,
@@ -36,5 +36,14 @@ export const useUserStore = defineStore("user", {
       });
       this.user = user;
     },
+    logoutUser() {
+      const cookies = new Cookies(null, { path: "/" });
+      cookies.remove("@iRemember:user", { path: "/" });
+      this.user = null;
+    
+      router.push({
+        path: "/auth/login",
+      });
+    }
   },
 });

@@ -12,7 +12,7 @@ import {
 
 defineProps({
   eventId: {
-    type: String,
+    type: Number,
     required: true,
   },
 });
