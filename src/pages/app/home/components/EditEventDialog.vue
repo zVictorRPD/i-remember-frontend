@@ -4,26 +4,27 @@ import type { IEvent } from "@/interfaces/event";
 import { useEventStore } from "@/stores/event";
 import { eventValidationSchema } from "@/utils/forms/event";
 import { updateEventService } from "@/utils/services/event";
-import { useMutation } from "@tanstack/vue-query";
+import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { Form } from "vee-validate";
 import EventForm from "./EventForm.vue";
 
 const eventStore = useEventStore();
+const queryClient = useQueryClient();
 
 const mutate = useMutation({
   mutationFn: updateEventService,
-  onSuccess: (data) => {
-    eventStore.editEvent({
-      ...data,
-      id: eventStore.eventToEdit.id,
-    });
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ["events"] });
     eventStore.setEditDialogIsOpen(false);
   },
 });
 
 async function handleFormSubmit(v: any) {
   const values: IEvent = v;
-  await mutate.mutateAsync(values);
+  await mutate.mutateAsync({
+    ...values,
+    id: eventStore.eventToEdit.id,
+  });
 }
 </script>
 

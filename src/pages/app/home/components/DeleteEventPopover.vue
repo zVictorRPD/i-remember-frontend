@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import Button from "@/components/ui/Button.vue";
+import { deleteEventService } from "@/utils/services/event";
+import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { Trash2Icon } from "lucide-vue-next";
 import {
   PopoverArrow,
@@ -10,12 +12,25 @@ import {
   PopoverTrigger,
 } from "reka-ui";
 
-defineProps({
+const props = defineProps({
   eventId: {
     type: Number,
     required: true,
   },
 });
+
+const queryClient = useQueryClient();
+
+const mutate = useMutation({
+  mutationFn: deleteEventService,
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ["events"] });
+  },
+});
+
+async function handleDeleteEvent() {
+  await mutate.mutateAsync(props.eventId);
+}
 </script>
 
 <template>
@@ -35,9 +50,7 @@ defineProps({
           <h3 class="text-md font-medium text-gray-900">
             Tem certeza que deseja excluir este evento?
           </h3>
-          <p class="text-sm text-gray-500">
-            Esta ação não pode ser desfeita.
-          </p>
+          <p class="text-sm text-gray-500">Esta ação não pode ser desfeita.</p>
         </div>
         <div class="flex justify-end">
           <PopoverClose as-child>
@@ -47,6 +60,8 @@ defineProps({
             variant="danger"
             size="small"
             class="ml-2"
+            @click="handleDeleteEvent"
+            :is-loading="mutate.isPending.value"
           >
             Confirmar
           </Button>

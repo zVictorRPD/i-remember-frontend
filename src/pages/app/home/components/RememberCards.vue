@@ -3,6 +3,11 @@ import Button from "@/components/ui/Button.vue";
 import type { IEvent } from "@/interfaces/event";
 import { useEventStore } from "@/stores/event";
 import {
+  formatEventDate,
+  getEventDiffInDays,
+  getEventDiffInYears,
+} from "@/utils/functions/date";
+import {
   ClockIcon,
   FacebookIcon,
   InstagramIcon,
@@ -11,6 +16,7 @@ import {
   MessageCircleIcon,
   PencilIcon,
 } from "lucide-vue-next";
+import { computed } from "vue";
 import DeleteEventPopover from "./DeleteEventPopover.vue";
 
 const eventStore = useEventStore();
@@ -18,10 +24,25 @@ function handleEditEvent(event: IEvent) {
   eventStore.setEventToEdit(event);
   eventStore.setEditDialogIsOpen(true);
 }
+
+const eventDiffInYears = (date: string) => {
+  return computed(() => getEventDiffInYears(date));
+};
+
+const eventDiffInDays = (date: string) => {
+  return computed(() => {
+    const diff = getEventDiffInDays(date);
+    return diff === 0 ? "é hoje 🎉🎉" : `faltam ${diff} dias`;
+  });
+};
+
+const eventDate = (date: string) => {
+  return computed(() => formatEventDate(date, "DD/MM/YYYY"));
+};
 </script>
 
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="eventStore.events.length > 0">
     <div
       class="p-2.5 bg-white dark:bg-header rounded-md flex flex-col gap-4"
       v-for="event in eventStore.events"
@@ -34,7 +55,9 @@ function handleEditEvent(event: IEvent) {
           class="w-12 h-12 rounded-full"
         />
         <div class="flex flex-col items-start justify-center gap-1">
-          <p class="text-xl">{{ event.name }} - 99 anos</p>
+          <p class="text-xl">
+            {{ event.name }} - {{ eventDiffInYears(event.date) }} anos
+          </p>
           <div
             class="flex flex-col md:flex-row justify-start items-start md:items-center gap-2"
           >
@@ -46,7 +69,7 @@ function handleEditEvent(event: IEvent) {
             <span
               class="px-1 bg-green-100 text-green-800 text-xs font-semibold rounded-xs uppercase"
             >
-              {{ event.date }} - faltam 10 dias
+              {{ eventDate(event.date) }} - {{ eventDiffInDays(event.date) }}
             </span>
           </div>
         </div>
@@ -64,18 +87,18 @@ function handleEditEvent(event: IEvent) {
           {{ event.description }}
         </p>
       </div>
-      <div class="flex justify-between items-center flex-col md:flex-row gap-4">
+      <div class="flex justify-between items-center flex-col md:flex-row gap-4 mt-auto">
         <div class="flex gap-2.5">
-          <a :href="event.facebook" v-if="event.facebook">
+          <a :href="event.facebook" v-if="event.facebook" target="_blank">
             <FacebookIcon :size="22" class="white" />
           </a>
-          <a :href="event.instagram" v-if="event.instagram">
+          <a :href="event.instagram" v-if="event.instagram" target="_blank">
             <InstagramIcon :size="22" class="white" />
           </a>
-          <a :href="event.whatsApp" v-if="event.whatsApp">
+          <a :href="event.whatsApp" v-if="event.whatsApp" target="_blank">
             <MessageCircleIcon :size="22" class="white" />
           </a>
-          <a :href="event.email" v-if="event.email">
+          <a :href="`mailto:${event.email}`" v-if="event.email">
             <MailIcon :size="22" class="white" />
           </a>
         </div>

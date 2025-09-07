@@ -21,16 +21,8 @@ export const useEventStore = defineStore("event", {
     setEditDialogIsOpen(isOpen: boolean) {
       this.editDialogIsOpen = isOpen;
     },
-    addNewEvent(newEvent: IEvent) {
-      this.events.push(newEvent);
-    },
-    editEvent(updatedEvent: IEvent) {
-      const index = this.events.findIndex(
-        (event) => event.id === updatedEvent.id
-      );
-      if (index !== -1) {
-        this.events[index] = updatedEvent;
-      }
+    setEvents(events: IEvent[]) {
+      this.events = events;
     },
     setEventToEdit(event: IEvent) {
       this.eventToEdit = event;

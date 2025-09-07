@@ -1,18 +1,22 @@
 <script setup lang="ts">
 import Dialog from "@/components/ui/Dialog.vue";
 import { useEventStore } from "@/stores/event";
-import { eventValidationSchema, type TEventFormValues } from "@/utils/forms/event";
+import {
+  eventValidationSchema,
+  type TEventFormValues,
+} from "@/utils/forms/event";
 import { addNewEventService } from "@/utils/services/event";
-import { useMutation } from "@tanstack/vue-query";
+import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { Form } from "vee-validate";
 import EventForm from "./EventForm.vue";
 
 const eventStore = useEventStore();
+const queryClient = useQueryClient();
 
 const mutate = useMutation({
   mutationFn: addNewEventService,
-  onSuccess: (data) => {
-    eventStore.addNewEvent(data);
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ["events"] });
     eventStore.setAddDialogIsOpen(false);
   },
 });

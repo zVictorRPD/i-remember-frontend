@@ -37,7 +37,7 @@ const userStore = useUserStore();
         @click="userStore.logoutUser()"
         class="p-2 rounded hover:bg-gray-200 dark:hover:bg-sky-950 transition cursor-pointer border border-gray-200 dark:border-sky-950"
       >
-        <LogOutIcon class="w-6 h-6 text-header" />
+        <LogOutIcon class="w-6 h-6 text-header dark:text-gray-200" />
       </button>
       </div>
     </div>
