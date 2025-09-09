@@ -50,11 +50,15 @@ const buttonIconClasses = computed(() => {
     },
   ];
 });
+
+const loadingIconSize = computed(() => {
+  return props.size === "small" ? 16 : props.size === "medium" ? 20 : 24;
+});
 </script>
 
 <template>
   <button v-bind="attrs" :class="buttonClasses" :disabled="props.isLoading">
-    <Loader2Icon v-if="props.isLoading" class="animate-spin" />
+    <Loader2Icon v-if="props.isLoading" class="animate-spin" :size="loadingIconSize"/>
     <component
       v-else-if="props.icon"
       :is="props.icon"
