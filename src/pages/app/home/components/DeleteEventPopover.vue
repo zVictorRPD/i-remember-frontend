@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Button from "@/components/ui/Button.vue";
+import { useToast } from "@/composables/useToast";
 import { deleteEventService } from "@/utils/services/event";
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { Trash2Icon } from "lucide-vue-next";
@@ -20,11 +21,24 @@ const props = defineProps({
 });
 
 const queryClient = useQueryClient();
+const { showToast } = useToast();
 
 const mutate = useMutation({
   mutationFn: deleteEventService,
   onSuccess: () => {
     queryClient.invalidateQueries({ queryKey: ["events"] });
+    showToast({
+      title: "Sucesso",
+      description: "Evento excluído com sucesso!",
+      type: "success",
+    });
+  },
+  onError: (error: any) => {
+    showToast({
+      title: "Erro",
+      description: error?.message || "Ocorreu um erro ao excluir o evento.",
+      type: "error",
+    });
   },
 });
 

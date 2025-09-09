@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Button from "@/components/ui/Button.vue";
 import Input from "@/components/ui/Input.vue";
+import { useToast } from "@/composables/useToast";
 import { useUserStore } from "@/stores/user";
 import {
   loginUserValidationSchema,
@@ -13,12 +14,27 @@ import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
 const router = useRouter();
+const { showToast } = useToast();
 
 const mutate = useMutation({
   mutationFn: loginUserService,
   onSuccess: (data) => {
     userStore.setUser(data.data);
+    showToast({
+      title: "Sucesso",
+      description: "Login realizado com sucesso!",
+      type: "success",
+    });
     router.push("/");
+  },
+  onError: (error: any) => {
+    showToast({
+      title: "Erro",
+      description:
+        error?.message ||
+        "Ocorreu um erro ao realizar o login",
+      type: "error",
+    });
   },
 });
 

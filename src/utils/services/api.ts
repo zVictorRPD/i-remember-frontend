@@ -38,7 +38,8 @@ export async function api<T = unknown>(
   });
 
   if (!response.ok) {
-    throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    const errorData = await response.json();
+    throw new Error(errorData?.message || "Erro na requisição");
   }
 
   return response.json() as Promise<T>;

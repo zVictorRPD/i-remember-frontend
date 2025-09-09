@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Dialog from "@/components/ui/Dialog.vue";
+import { useToast } from "@/composables/useToast";
 import { useEventStore } from "@/stores/event";
 import {
   eventValidationSchema,
@@ -12,12 +13,25 @@ import EventForm from "./EventForm.vue";
 
 const eventStore = useEventStore();
 const queryClient = useQueryClient();
+const { showToast } = useToast();
 
 const mutate = useMutation({
   mutationFn: addNewEventService,
   onSuccess: () => {
     queryClient.invalidateQueries({ queryKey: ["events"] });
     eventStore.setAddDialogIsOpen(false);
+    showToast({
+      title: "Sucesso",
+      description: "Evento adicionado com sucesso!",
+      type: "success",
+    });
+  },
+  onError: (error: any) => {
+    showToast({
+      title: "Erro",
+      description: error?.message || "Ocorreu um erro ao adicionar o evento.",
+      type: "error",
+    });
   },
 });
 
