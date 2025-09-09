@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import Input from "@/components/ui/Input.vue";
+import Select from "@/components/ui/Select.vue";
+import { categoryOptions } from "@/interfaces/category";
 import { Field } from "vee-validate";
 </script>
 
@@ -14,7 +16,13 @@ import { Field } from "vee-validate";
     <div class="flex flex-col gap-1.5">
       <label for="category" class="font-medium">Categoria</label>
       <Field name="category" v-slot="{ field, errorMessage }">
-        <Input id="category" type="text" v-bind="field" :error="errorMessage" />
+        <Select
+          id="category"
+          v-bind="field"
+          :error="errorMessage"
+          :options="categoryOptions"
+          placeholder="Escolha uma categoria"
+        />
       </Field>
     </div>
     <div class="flex flex-col gap-1.5">
