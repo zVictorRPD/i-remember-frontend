@@ -2,7 +2,12 @@
 import Input from "@/components/ui/Input.vue";
 import Select from "@/components/ui/Select.vue";
 import { categoryOptions } from "@/interfaces/category";
+import { phoneMask } from "@/utils/functions/masks";
 import { Field } from "vee-validate";
+
+function handlePhoneInput(event: any, field: any) {
+  field.onInput(phoneMask(event.target.value));
+}
 </script>
 
 <template>
@@ -81,7 +86,14 @@ import { Field } from "vee-validate";
     <div class="flex flex-col gap-1.5">
       <label for="whatsApp" class="font-medium">WhatsApp</label>
       <Field name="whatsApp" v-slot="{ field, errorMessage }">
-        <Input id="whatsApp" type="text" v-bind="field" :error="errorMessage" />
+        <Input
+          id="whatsApp"
+          type="text"
+          v-bind="field"
+          :error="errorMessage"
+          @input="handlePhoneInput($event, field)"
+          maxlength="15"
+        />
       </Field>
     </div>
   </div>

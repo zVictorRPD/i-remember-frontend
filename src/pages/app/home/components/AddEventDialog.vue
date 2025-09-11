@@ -6,6 +6,7 @@ import {
   eventValidationSchema,
   type TEventFormValues,
 } from "@/utils/forms/event";
+import { removeMask } from "@/utils/functions/masks";
 import { addNewEventService } from "@/utils/services/event";
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { Form } from "vee-validate";
@@ -37,7 +38,10 @@ const mutate = useMutation({
 
 async function handleFormSubmit(v: any) {
   const values: TEventFormValues = v;
-  await mutate.mutateAsync(values);
+  await mutate.mutateAsync({
+    ...values,
+    whatsApp: removeMask(values.whatsApp || ""),
+  });
 }
 </script>
 

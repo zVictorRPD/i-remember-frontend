@@ -34,9 +34,9 @@ const attrs = useAttrs();
       }"
     >
       <option value="" disabled>{{ placeholder }}</option>
-      <option 
-        v-for="option in options" 
-        :key="option.value" 
+      <option
+        v-for="option in options"
+        :key="option.value"
         :value="option.value"
         class="dark:bg-primary-300 dark:text-white"
       >
@@ -46,7 +46,7 @@ const attrs = useAttrs();
     <!-- Ícone da seta SVG, posicionado absolutamente -->
     <span
       class="pointer-events-none absolute inset-y-0 right-3 flex items-center"
-      style="top: 50%; transform: translateY(-50%);"
+      style="top: 50%; transform: translateY(-50%)"
       aria-hidden="true"
     >
       <svg
@@ -64,13 +64,7 @@ const attrs = useAttrs();
 </template>
 
 <style scoped>
-/* Remover a imagem de fundo do select para garantir que a seta SVG apareça */
 select {
   background-image: none !important;
-}
-
-/* Estilização para estado de erro */
-select.border-red-500 {
-  /* Nenhuma imagem de fundo, a seta SVG será usada */
 }
 </style>

@@ -4,9 +4,11 @@ import { useToast } from "@/composables/useToast";
 import type { IEvent } from "@/interfaces/event";
 import { useEventStore } from "@/stores/event";
 import { eventValidationSchema } from "@/utils/forms/event";
+import { phoneMask, removeMask } from "@/utils/functions/masks";
 import { updateEventService } from "@/utils/services/event";
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { Form } from "vee-validate";
+import { computed } from "vue";
 import EventForm from "./EventForm.vue";
 
 const eventStore = useEventStore();
@@ -38,8 +40,17 @@ async function handleFormSubmit(v: any) {
   await mutate.mutateAsync({
     ...values,
     id: eventStore.eventToEdit.id,
+    whatsApp: removeMask(values.whatsApp || ""),
   });
 }
+
+const formInitialValues = computed(() => {
+  return {
+    ...eventStore.eventToEdit,
+    whatsApp: phoneMask(eventStore.eventToEdit.whatsApp || ""),
+  };
+});
+
 </script>
 
 <template>
@@ -57,7 +68,7 @@ async function handleFormSubmit(v: any) {
       id="edit-event-form"
       :validation-schema="eventValidationSchema"
       class="space-y-4"
-      :initial-values="eventStore.eventToEdit"
+      :initial-values="formInitialValues"
       @submit="handleFormSubmit"
     >
       <EventForm />
