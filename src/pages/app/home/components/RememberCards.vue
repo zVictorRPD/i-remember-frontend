@@ -42,32 +42,30 @@ const eventDate = (date: string) => {
 </script>
 
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="eventStore.events.length > 0">
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 gap-3"
+    v-if="eventStore.filteredEvents.length > 0"
+  >
     <div
-      class="p-2.5 bg-white dark:bg-header rounded-md flex flex-col gap-4"
-      v-for="event in eventStore.events"
+      class="p-3 bg-white dark:bg-header rounded-md flex flex-col gap-4"
+      v-for="event in eventStore.filteredEvents"
       :key="event.id"
     >
-      <div class="flex items-center gap-3">
-        <img
-          src="https://avatars.githubusercontent.com/u/9919?s=200&v=4"
-          alt="Avatar"
-          class="w-12 h-12 rounded-full"
-        />
+      <div class="flex items-center gap-1.5 md:gap-3">
         <div class="flex flex-col items-start justify-center gap-1">
-          <p class="text-xl">
+          <p class="text-xl font-semibold">
             {{ event.name }} - {{ eventDiffInYears(event.date) }} anos
           </p>
           <div
             class="flex flex-col md:flex-row justify-start items-start md:items-center gap-2"
           >
             <span
-              class="px-1 bg-purple-100 text-purple-800 text-xs font-semibold rounded-xs uppercase"
+              class="px-1 bg-purple-100 text-purple-800 text-sm font-semibold rounded-xs uppercase"
             >
               {{ event.category }}
             </span>
             <span
-              class="px-1 bg-green-100 text-green-800 text-xs font-semibold rounded-xs uppercase"
+              class="px-1 bg-green-100 text-green-800 text-sm font-semibold rounded-xs uppercase"
             >
               {{ eventDate(event.date) }} - {{ eventDiffInDays(event.date) }}
             </span>
@@ -87,7 +85,9 @@ const eventDate = (date: string) => {
           {{ event.description }}
         </p>
       </div>
-      <div class="flex justify-between items-center flex-col md:flex-row gap-4 mt-auto">
+      <div
+        class="flex justify-between items-center flex-col md:flex-row gap-4 mt-auto"
+      >
         <div class="flex gap-2.5">
           <a :href="event.facebook" v-if="event.facebook" target="_blank">
             <FacebookIcon :size="22" class="white" />
@@ -115,5 +115,8 @@ const eventDate = (date: string) => {
         </div>
       </div>
     </div>
+  </div>
+  <div v-else class="min-h-[40vh] flex items-center justify-center">
+    <p class="font-bold text-xl text-center">Nenhum evento encontrado para este mês.</p>
   </div>
 </template>

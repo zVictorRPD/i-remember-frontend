@@ -18,6 +18,8 @@ export interface IEvent {
 
 export interface IEventStore {
   events: IEvent[];
+  filteredEvents: IEvent[];
+  currentMonth: { label: string; value: number };
   addDialogIsOpen: boolean;
   editDialogIsOpen: boolean;
   newEvent: TEventFormValues;
