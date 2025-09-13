@@ -22,10 +22,22 @@ const eventZodSchema = z.object({
   description: z.string().optional(),
   time: z.string().optional(),
   location: z.string().optional(),
-  facebook: z.url("URL do Facebook inválida").optional().or(z.literal("")),
-  instagram: z.url("URL do Instagram inválida").optional().or(z.literal("")),
-  twitter: z.url("URL do Twitter inválida").optional().or(z.literal("")),
-  email: z.email("E-mail inválido").optional().or(z.literal("")),
+  facebook: z
+    .string()
+    .url("URL do Facebook inválida")
+    .optional()
+    .or(z.literal("")),
+  instagram: z
+    .string()
+    .url("URL do Instagram inválida")
+    .optional()
+    .or(z.literal("")),
+  twitter: z
+    .string()
+    .url("URL do Twitter inválida")
+    .optional()
+    .or(z.literal("")),
+  email: z.string().email("E-mail inválido").optional().or(z.literal("")),
   whatsApp: z.string().optional(),
 });
 

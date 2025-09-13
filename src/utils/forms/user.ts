@@ -13,7 +13,7 @@ export const registerUserInitialValues = {
 };
 
 const loginUserObject = {
-  email: z.email("E-mail inválido").min(1, "E-mail é obrigatório"),
+  email: z.string().email("E-mail inválido").min(1, "E-mail é obrigatório"),
   password: z.string().min(8, "A senha deve ter no mínimo 8 caracteres"),
 };
 
