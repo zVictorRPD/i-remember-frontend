@@ -4,7 +4,7 @@ import { useEventStore } from "@/stores/event";
 import { getEventsService } from "@/utils/services/event";
 import { useQuery } from "@tanstack/vue-query";
 import dayjs from "dayjs";
-import { PlusIcon } from "lucide-vue-next";
+import { Loader2Icon, PlusIcon } from "lucide-vue-next";
 import { watch } from "vue";
 import AddEventDialog from "./components/AddEventDialog.vue";
 import EditEventDialog from "./components/EditEventDialog.vue";
@@ -53,14 +53,17 @@ watch(
       Adicionar Evento
     </Button>
   </div>
-  <div v-if="isLoading" class="min-h-[40vh] flex items-center justify-center">
-    <p class="font-bold text-xl text-center">
-      Carregando eventos...
-    </p>
+  <div
+    v-if="isLoading"
+    class="min-h-[40vh] flex items-center justify-center gap-3"
+  >
+    <Loader2Icon class="animate-spin" :size="32" />
+    <p class="font-bold text-2xl text-center">Carregando eventos...</p>
   </div>
   <div v-else-if="error" class="min-h-[40vh] flex items-center justify-center">
-    <p class="font-bold text-xl text-center">
-      Ocorreu um erro ao carregar os eventos. Por favor, tente novamente mais tarde.
+    <p class="font-bold text-2xl text-center">
+      Ocorreu um erro ao carregar os eventos. <br />
+      Por favor, tente novamente mais tarde.
     </p>
   </div>
   <RememberCards v-else-if="data" />
